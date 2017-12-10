@@ -6,18 +6,53 @@ var hbs = require('express-handlebars');
 var bodyParser  = require('body-parser');
 var validator = require('express-validator');
 var session = require('express-session');
+var passport  = require('passport');
+var flash  = require('connect-flash');
+
+require('./config/passport')
 
 //var db = require('./db.js');
 
-// var mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost:27017/nodeauth');
 
-// var UserSchema = mongoose.Schema({
-// 	   username: String,
-// 	   password: String
-// });
 
-// var User = mongoose.model('User', UserSchema);
+
+
+
+
+/*var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/nodeauth');
+var Schema = mongoose.Schema;
+var UserSchema = new Schema({
+    username: String,
+    password: String
+}, {
+    collection: 'users'
+});
+
+var User = mongoose.model('User', UserSchema);*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/'}));
 app.set('views', path.join(__dirname, 'views'));
@@ -27,6 +62,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(validator());
+
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -47,34 +84,72 @@ MongoClient.connect('mongodb://localhost:12648/nodeauth', function(err, db) {
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-	secret: 'kalash'
-}))
+	secret: 'kalash',
+    saveUninitialized: false,
+    resave: false
+}));
+
+
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
 
-
-
-
-app.use(function (req, res, next) {
+/*app.use(function (req, res, next) {
     if(req.url == '/register') {
         res.render('register.hbs', {
-            title: 'Регистрация'
+            title: 'Регистрация',
+            messages: messages, 
+            hasErrors: messages.length > 0
         });        
     } else {
         next();
     }
+});*/
+
+
+
+
+app.post('/login', function(req, res, next) {
+    res.send('hello world');
 });
+
+app.get('/register', function(req, res, next) {
+    var messages = req.flash('error');
+    res.render('register.hbs', {
+        title: 'Регистрация',
+        messages: messages, 
+        hasErrors: messages.length > 0
+    });
+});
+
+app.post('/register', passport.authenticate('local.signup', {
+    successRedirect: 'start',
+    failureRedirect: 'register',
+    failureFlash: true
+}));
+
+
+
+
+
 
 app.use(function (req, res, next) {
     if(req.url == '/login') {
-        res.render('login.hbs', {
+        User.find().then(function(doc) {
+            res.render('login', {items: doc})
+        });
+        /*res.render('login.hbs', {
             title: 'Вход'
-        });        
+        });*/  
     } else {
         next();
     }
 });
+
+
 
 app.use(function (req, res, next) {
     if(req.url == '/confirm') {

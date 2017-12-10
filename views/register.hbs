@@ -1,8 +1,14 @@
 <h2 class="heading heading_blue">Регистрация</h2>
-<div class="page__flash page__flash_wrong">Текст ошибки</div>
+
+
+{{#if hasErrors}}
+    {{#each messages}}
+        <div class="page__flash page__flash_wrong">{{this}}</div>
+    {{/each}}
+{{/if}}
 
 <div class="section__wrapper registration-page">
-    <form action="/users/register" enctype="multipart/form-data" method="post">
+    <form action="/register" enctype="multipart/form-data" method="post">
         <input type="text" class="input" placeholder="dedpihto@mail.ru" name="username">
         <input type="password" class="input input_unbordered" placeholder="Пароль" name="password">
         <input type="password" class="input" placeholder="Подтверждение пароля" name="password2">
