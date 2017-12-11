@@ -7,9 +7,12 @@ var bodyParser  = require('body-parser');
 var validator = require('express-validator');
 var session = require('express-session');
 var passport  = require('passport');
-var flash  = require('connect-flash');
 
 require('./config/passport')
+
+var flash  = require('connect-flash');
+
+
 
 //var db = require('./db.js');
 

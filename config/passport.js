@@ -13,31 +13,33 @@ passport.deserializeUser(function(id, done) {
 	});
 });
 
-/*passport.use('local.signup', new LocalStrategy({
-	usernameField: 'username',
-	password: 'password',
-	passRecToCallback: true
-}), function(req, username, password, done) {
-	User.findOne({username: 'username'}, function(err, user) {
-		if(err) {
-			return done(err);
-		}
-		if(user) {
-			return done(null, false, {message: 'Такой username занят'});
-		}
-		var newUser = new User();
-		newUser.username = username;
-		//newUser.password = password;
-		newUser.password = newUser.encryptPassword(password);
-		newUser.save(function(err, result) {
-			if(err) {
-				return done(err);
-			}
-			return done(null, newUser);
-		});
-	});	
-});
-*/
+passport.use('local.signup', new LocalStrategy({
+ usernameField: 'username',
+ password: 'password',
+ passRecToCallback: true
+}, function(req, username, password, done) {
+ User.findOne({username: 'username'}, function(err, user) {
+  if(err) {
+   return done(err);
+  }
+  if(user) {
+   return done(null, false, {message: 'Такой username занят'});
+  }
+  var newUser = new User();
+  newUser.username = username;
+  //newUser.password = password;
+  newUser.password = newUser.encryptPassword(password);
+  newUser.save(function(err, result) {
+   if(err) {
+    return done(err);
+   }
+   return done(null, newUser);
+  });
+ }); 
+}
+)
+);
+
 
 
 
