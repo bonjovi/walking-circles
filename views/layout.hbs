@@ -9,6 +9,19 @@
 </head>
 <body class="page">
     <div class="page__wrapper">
+
+        {{#if success_msg}}
+            <div class="alert alert-success">{{success_msg}}</div>
+        {{/if}}
+
+        {{#if error_msg}}
+            <div class="alert alert-danger">{{error_msg}}</div>
+        {{/if}}
+
+        {{#if error}}
+            <div class="alert alert-danger">{{error}}</div>
+        {{/if}}
+
         <div class="section">
             {{{ body }}}
         </div>

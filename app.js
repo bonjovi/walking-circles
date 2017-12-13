@@ -1,242 +1,87 @@
 var express = require('express');
-var app = express();
 var path = require('path');
-var logger = require('morgan');
-var newlogger = require('express-logger');
-var hbs = require('express-handlebars');
-var bodyParser  = require('body-parser');
-var validator = require('express-validator');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var exphbs = require('express-handlebars');
+var expressValidator = require('express-validator');
+var flash = require('connect-flash');
 var session = require('express-session');
-var passport  = require('passport');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var mongo = require('mongodb');
+var mongoose = require('mongoose');
 
-require('./config/passport')
+mongoose.connect('mongodb://localhost/nodeauth');
+var db = mongoose.connection;
 
-var flash  = require('connect-flash');
+var routes = require('./routes/index');
+var users = require('./routes/users');
 
+// Init App
+var app = express();
 
-
-//var db = require('./db.js');
-
-
-
-
-
-
-
-/*var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/nodeauth');
-var Schema = mongoose.Schema;
-var UserSchema = new Schema({
-    username: String,
-    password: String
-}, {
-    collection: 'users'
-});
-
-var User = mongoose.model('User', UserSchema);*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/'}));
+// View Engine
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+app.engine('handlebars', exphbs({defaultLayout:'layout'}));
+app.set('view engine', 'handlebars');
 
-app.use(logger('dev'));
+// BodyParser Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(validator());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-
-
+// Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*var MongoClient = require('mongodb').MongoClient;
-
-MongoClient.connect('mongodb://localhost:12648/nodeauth', function(err, db) {
-	if(err) {
-		throw err;
-	}
-
-	db.collection('users').find().toArray(function(err, result) {
-		if(err) {
-			throw err;
-		}
-		console.log(result);
-	});
-});*/
-
-app.set('trust proxy', 1) // trust first proxy
+// Express Session
 app.use(session({
-	secret: 'kalash',
-    saveUninitialized: false,
-    resave: false
+    secret: 'kalash',
+    saveUninitialized: true,
+    resave: true
 }));
 
-
-app.use(flash());
+// Passport init
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Express Validator
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
 
-
-
-/*app.use(function (req, res, next) {
-    if(req.url == '/register') {
-        res.render('register.hbs', {
-            title: 'Регистрация',
-            messages: messages, 
-            hasErrors: messages.length > 0
-        });        
-    } else {
-        next();
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
     }
-});*/
-
-
-
-
-app.post('/login', function(req, res, next) {
-    res.send('hello world');
-});
-
-app.get('/register', function(req, res, next) {
-    app.use(newlogger({path: "logfile.txt"}));
-    var messages = req.flash('error');
-    res.render('register.hbs', {
-        title: 'Регистрация',
-        messages: messages, 
-        hasErrors: messages.length > 0
-    });
-});
-
-app.post('/register', passport.authenticate('local.signup', {
-    successRedirect: 'start',
-    failureRedirect: 'register',
-    failureFlash: true
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
 }));
 
+// Connect Flash
+app.use(flash());
 
-
-
-
-
+// Global Vars
 app.use(function (req, res, next) {
-    if(req.url == '/login') {
-        User.find().then(function(doc) {
-            res.render('login', {items: doc})
-        });
-        /*res.render('login.hbs', {
-            title: 'Вход'
-        });*/  
-    } else {
-        next();
-    }
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
+  next();
 });
 
 
 
-app.use(function (req, res, next) {
-    if(req.url == '/confirm') {
-        res.render('confirm.hbs', {
-            title: 'Подтверждение регистрации'
-        });        
-    } else {
-        next();
-    }
+app.use('/', routes);
+app.use('/users', users);
+
+// Set Port
+app.set('port', (process.env.PORT || 3000));
+
+app.listen(app.get('port'), function(){
+    console.log('Сервер запущен. Используемый порт: '+app.get('port'));
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.use(function (req, res, next) {
-    if(req.url == '/numbers') {
-    	if(!req.session.numberOfVisits) {
-    		req.session.numberOfVisits = 1;
-    		//res.status(201).send(req.session);
-    	} else {
-    		req.session.numberOfVisits += 1;
-    		//res.status(200).send(req.session);
-    	}
-		res.render('number.hbs', {
-			number: 111
-		});
-		//res.send(req.session);		
-    } else {
-    	next();
-    }
-});
-
-app.use(function (req, res, next) {
-    if(req.url == '/userinfo') {
-    	var selectedUser = User.findOne({'_id': '59a0136112712b63184c4150'}, (err, user) => {
-		    //console.log('result', err, user);
-		    //console.log(user);
-		    userinfo(user);
-		});
-
-    	//console.log(typeof selectedUser);
-    	function userinfo(user) {
-    		res.render("userinfo.hbs", {
-		        title: "Информация о пользователе",
-		        emailsVisible: true,
-		        emails: ['nonerased@mail.ru', 'roman-kalashnikoff@yandex.ru'],
-		        phone: "+7 926 871 9670",
-		        users: user.username
-		    });
-    	}
-        
-    } else {
-    	next();
-    }
-});
-
-app.use(function (req, res, next) {
-	if(req.url == '/error') {
-  		throw 'Ошибка';
-    } else {
-    	next();
-    }
-});
-
-app.use(function (req, res) {
-	res.send('<h1>Index page<h1>');
-});
-
-app.listen(3000);
