@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var logger = require('morgan');
+var newlogger = require('express-logger');
 var hbs = require('express-handlebars');
 var bodyParser  = require('body-parser');
 var validator = require('express-validator');
@@ -120,6 +121,7 @@ app.post('/login', function(req, res, next) {
 });
 
 app.get('/register', function(req, res, next) {
+    app.use(newlogger({path: "logfile.txt"}));
     var messages = req.flash('error');
     res.render('register.hbs', {
         title: 'Регистрация',
