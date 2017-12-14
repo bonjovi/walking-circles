@@ -1,9 +1,12 @@
 var express = require('express');
+var exphbs = require('express-handlebars');
 var router = express.Router();
+var app = express();
 
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
-	res.render('start', {username: req.user.username});
+	
+	res.render('system', {layout: false, username: req.user.username});
 });
 
 function ensureAuthenticated(req, res, next){
