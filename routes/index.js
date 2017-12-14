@@ -3,7 +3,7 @@ var router = express.Router();
 
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
-	res.render('start');
+	res.render('start', {username: req.user.username});
 });
 
 function ensureAuthenticated(req, res, next){

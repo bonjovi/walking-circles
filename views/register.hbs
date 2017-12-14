@@ -9,8 +9,8 @@
 <div class="section__wrapper registration-page">
     <form method="post" action="/users/register">
         <input type="text" class="input" placeholder="Как Вас зовут?" name="name">
-        <input type="text" class="input" placeholder="Придумайте себе логин" name="username">
-        <input type="text" class="input" placeholder="dedpihto@mail.ru" name="email">
+        <input type="text" class="input input_unbordered" placeholder="Придумайте себе логин" name="username">
+        <input type="text" class="input" placeholder="Введите свой email" name="email">
         <input type="password" class="input input_unbordered" placeholder="Пароль" name="password">
         <input type="password" class="input" placeholder="Подтверждение пароля" name="password2">
         <input type="submit" class="input input_submit" value="Зарегистрироваться">
@@ -19,17 +19,3 @@
         Оставьте свой почтовый электронный ящик и придумайте пароль. Пароль должен содержать не менее 8 символов.
     </div>
 </div>
-
-<!--extends layout
-
-block content
-    h2.heading.heading_blue Регистрация
-    if errors
-        .page__flash.page__flash_wrong #{errors[0].msg}
-    .section__wrapper.registration-page
-        form(method='post', action='/users/register',enctype='multipart/form-data')          
-            input.input(type='text', placeholder='dedpihto@mail.ru', name='username')
-            input.input.input_unbordered(type='password', placeholder='Пароль', name='password')
-            input.input(type='password', placeholder='Подтверждение пароля', name='password2')
-            input.input.input_submit(type='submit', value='Зарегистрироваться')
-        .page__recommendation Оставьте свой почтовый электронный ящик и придумайте пароль. Пароль должен содержать не менее 8 символов.-->

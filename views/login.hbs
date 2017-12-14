@@ -1,5 +1,7 @@
 <h2 class="heading heading_blue">Вход</h2>
 
+
+
 <div class="section__wrapper login-page">
 	<form action="/users/login" method="post">
         <input type="text" class="input" placeholder="Введите логин" name="username">
@@ -8,17 +10,4 @@
     </form>
 </div>
 
-<!--
-extends layout
-
-block content
-	h2.heading.heading_blue Вход
-	if errors
-		.page__flash.page__flash_wrong #{errors[0].msg}
-	.section__wrapper.login-page
-		!= messages()
-		form(method='post', action='/users/login',enctype='multipart/form-data')          
-			input.input(type='text', placeholder='dedpihto@mail.ru', name='username')
-			input.input.input_unbordered(type='password', placeholder='Пароль', name='password')
-			input.input.input_submit(type='submit', value='Войти')
--->
+<div class="page__recommendation">Не зарегистрированы? Тогда Вам <a href="/users/register" class="page__link">сюда</a></div>
