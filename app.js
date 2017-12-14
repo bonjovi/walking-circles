@@ -10,6 +10,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+var nodemailer = require('nodemailer');
 
 mongoose.connect('mongodb://localhost/nodeauth');
 var db = mongoose.connection;
@@ -73,6 +74,11 @@ app.use(function (req, res, next) {
   res.locals.user = req.user || null;
   next();
 });
+
+
+
+
+
 
 
 

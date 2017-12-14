@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var nodemailer = require('nodemailer');
 var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('../models/user');
+
+var gmail = require('../config/gmail');
 
 // Register
 router.get('/register', function(req, res){
@@ -51,6 +54,37 @@ router.post('/register', function(req, res){
 		});
 
 		req.flash('success_msg', 'Вы зарегистрированы и можете войти в систему');
+
+		// Sending email
+		nodemailer.createTestAccount((err, account) => {
+		    var transporter = nodemailer.createTransport({
+		        host: 'smtp.gmail.com',
+		        port: 465,
+		        secure: true, 
+		        auth: {
+		            user: gmail.gmailLogin, 
+		            pass: gmail.gmailPassword  
+		        }
+		    });
+
+		    var userMailOptions = {
+		        from: '"Nooclub Ghost 👻" <ghost@nooclub.com>', 
+		        to: email, 
+		        subject: name + ', Вы были успешно зарегистрированы в Nooclub!', 
+		        //text: 'Hello world?', 
+		        html: '<p>Поздравляем, ' + name + '! Вы были успешно зарегистрированы в Nooclub.</p><p>Ваш логин: ' + username + '</p><p>Ваш пароль: ' + password + '</p>' 
+		    };
+
+		    transporter.sendMail(userMailOptions, (error, info) => {
+		        if (error) {
+		            return console.log(error);
+		        }
+		        console.log('Message sent: %s', info.messageId);
+		        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+		    });
+		});
+		// End of sending email
 
 		res.redirect('/users/login');
 	}
