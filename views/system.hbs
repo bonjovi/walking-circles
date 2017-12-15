@@ -12,6 +12,7 @@
   crossorigin="anonymous"></script>
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans&amp;subset=cyrillic" rel="stylesheet">
 	<link rel="stylesheet" href="/kuzin/css/media-queries05.css" type="text/css">
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 	<script type="text/javascript" src="https://hammerjs.github.io/dist/hammer.min.js"></script>
 	<script src="https://d3js.org/d3.v3.min.js"></script>
 
@@ -67,6 +68,10 @@
 	<!--[if IE]><script type="text/javascript" src="js/classList.min.js"></script>![endif]-->
 
 	<title>Testing page</title>
+
+	<script>
+		var socket = io();
+	</script>
 </head>
 <body>
 	<div class="central-button-wrapper" onclick="hide_right_panel()">

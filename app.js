@@ -21,6 +21,16 @@ var users = require('./routes/users');
 // Init App
 var app = express();
 
+// Socket
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+io.on('connection', function(socket){
+    console.log('a user connected');
+});
+http.listen(4000, function(){
+  console.log('listening on *:4000');
+});
+
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
 app.engine('hbs', exphbs({defaultLayout:'layout'}));
@@ -79,9 +89,6 @@ app.use(function (req, res, next) {
 
 
 
-
-
-
 app.use('/', routes);
 app.use('/users', users);
 
@@ -91,3 +98,5 @@ app.set('port', (process.env.PORT || 3000));
 app.listen(app.get('port'), function(){
     console.log('Сервер запущен. Используемый порт: '+app.get('port'));
 });
+
+

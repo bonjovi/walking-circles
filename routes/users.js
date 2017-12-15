@@ -8,6 +8,8 @@ var User = require('../models/user');
 
 var gmail = require('../config/gmail');
 
+
+
 // Register
 router.get('/register', function(req, res){
 	res.render('register');

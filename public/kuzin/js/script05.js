@@ -1097,7 +1097,25 @@ dotContainer = container.append("g")
                .attr("transform", function(d) { return 'translate(' + d.x + ' '+ d.y + ')'; })
                .call(drag);
 
-dot = dotContainer.append("circle")
+d3.tsv("dots.tsv", dottype, function(error, dots) {
+  dot = dotContainer.append("g")
+      .attr("class", "dot")
+    .selectAll("circle")
+      .data(dots)
+    .enter().append("circle")
+      .attr("r", 5)
+      .attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y; })
+      .call(drag);
+});   
+
+function dottype(d) {
+  d.x = +d.x;
+  d.y = +d.y;
+  return d;
+}            
+
+/*dot = dotContainer.append("circle")
       .attr("class", "dot")
       .datum({x:220, y:120})
      .attr("cx", function(d) { return d.x; })
@@ -1110,7 +1128,7 @@ text =  dotContainer.append("text")
                .attr("y", function(d) { return d.y; })
           .text($('.user-name h2').text());  
 
-
+*/
 
 
 
@@ -1123,6 +1141,7 @@ function dragstarted(d) {
   d3.select(this).classed("dragging", true);
 }
 
+/*
 function dragged(d) {
   d.x += d3.event.dx;
   d.y += d3.event.dy;
@@ -1130,6 +1149,11 @@ function dragged(d) {
   d3.select(this).attr("transform", function(d,i){
     return "translate(" + [ d.x,d.y ] + ")"
   });
+}
+*/
+
+function dragged(d) {
+  d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
 }
 
 function dragended(d) {

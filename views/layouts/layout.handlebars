@@ -5,6 +5,17 @@
     <title>{{ title }}</title>
     <link rel="stylesheet" href="/css/all.css">
     <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script>
+          $(function () {
+            var socket = io();
+            $('form').submit(function(){
+              socket.emit('chat message', $('#m').val());
+              $('#m').val('');
+              return false;
+            });
+          });
+    </script>
     <!--<script src="js/custom.js"></script>-->
 </head>
 <body class="page">
