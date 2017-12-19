@@ -24,9 +24,14 @@ var app = express();
 // Socket
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+
 io.on('connection', function(socket){
-    console.log('a user connected');
+    socket.on('moving', function(cx, cy){
+        console.log(cx, cy);
+        io.emit('moving', cx, cy);
+    });
 });
+
 http.listen(4000, function(){
   console.log('listening on *:4000');
 });

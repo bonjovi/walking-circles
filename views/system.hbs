@@ -15,12 +15,41 @@
 	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 	<script type="text/javascript" src="https://hammerjs.github.io/dist/hammer.min.js"></script>
 	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+	
+
+	<script>
+		$(function() {
+			var grabUsername = $('.user-name h2').text();
+			var random = Math.floor(Math.random()*10);
+			var groupElement = $('circle').parent('g').eq(random);
+			var namedElement = groupElement.attr('name', grabUsername);
+			var namedElementCoords = namedElement.attr('transform');
+			//$('text').html(grabUsername);
+			var coordsArray = namedElementCoords.slice(10, namedElementCoords.length-1).split(' ');;
+			console.log(coordsArray);
+			$('<text x="10" y="-5">' + grabUsername + '</text>').appendTo(groupElement);
+			$('g[name=' + grabUsername + ']').attr('x', coordsArray[0]).attr('y', coordsArray[1]).children('circle').css('fill','red');
+
+
+
+
+
+		});
+	</script>
+
 
 	<script type="text/javascript" src="/kuzin/js/simplebar.js"></script>
 	<script type="text/javascript" src="/kuzin/js/script05.js"></script>
 	
 	<style>
 
+		g[name=sys] {
+			z-index:100;
+			display: block;
+		}
+		
 		.dot circle {
 		  fill: lightsteelblue;
 		  stroke: steelblue;

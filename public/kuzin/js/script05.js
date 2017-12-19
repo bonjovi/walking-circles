@@ -1095,19 +1095,31 @@ dotContainer = container.append("g")
                .attr("class", "dotContainer")
                .datum({x:220, y:120})
                .attr("transform", function(d) { return 'translate(' + d.x + ' '+ d.y + ')'; })
-               .call(drag);
+               //.call(drag);
 
 d3.tsv("dots.tsv", dottype, function(error, dots) {
-  dot = dotContainer.append("g")
+  dotContainer
       .attr("class", "dot")
     .selectAll("circle")
       .data(dots)
-    .enter().append("circle")
-      .attr("r", 5)
-      .attr("cx", function(d) { return d.x; })
-      .attr("cy", function(d) { return d.y; })
-      .call(drag);
+    .enter().append("g")
+    		.attr("class", 'myelement')
+    		.attr("transform", function(d) { return 'translate(' + d.x + ','+ d.y + ')'; })	
+    .append("circle")
+      .attr("r", 5)	
+      //.call(drag);
 });   
+
+
+setTimeout(function() {
+	svg.select("[name]")
+	.call(drag);
+}, 2000);
+
+
+
+
+
 
 function dottype(d) {
   d.x = +d.x;
@@ -1152,9 +1164,28 @@ function dragged(d) {
 }
 */
 
+var socket = io();
+
 function dragged(d) {
-  d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+
+  d.x += d3.event.dx;
+  d.y += d3.event.dy;
+
+  d3.select(this).attr("transform", function(d,i){
+    return "translate(" + [ d.x,d.y ] + ")"
+  });
+
+  //d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+  socket.emit('moving', d.x, d.y);
+
 }
+
+
+socket.on('moving', function(cx, cy){
+	    d3.select('g.myelement').attr("transform", 'translate(' + cx + ','+ cy + ')');
+	    console.log(cx + ' ' + ' ' + cy);
+	});
+
 
 function dragended(d) {
   d3.select(this).classed("dragging", false);
