@@ -1069,6 +1069,9 @@ var rect = svg.append("rect")
     .style("fill", "none")
     .style("pointer-events", "all");
 
+
+
+
 var container = svg.append("g");
 
 container.append("g")
@@ -1093,29 +1096,75 @@ container.append("g")
 
 dotContainer = container.append("g")
                .attr("class", "dotContainer")
-               .datum({x:220, y:120})
+               .datum({x:-20, y:-20})
                .attr("transform", function(d) { return 'translate(' + d.x + ' '+ d.y + ')'; })
                //.call(drag);
-
-d3.tsv("dots.tsv", dottype, function(error, dots) {
+var socket = io.connect(':3000');
+socket.send("Говно");
+d3.tsv("hello.tsv", dottype, function(error, dots) {
   dotContainer
-      .attr("class", "dot")
+    .attr("class", "dot")
     .selectAll("circle")
-      .data(dots)
+    .data(dots)
     .enter().append("g")
-    		.attr("class", 'myelement')
-    		.attr("transform", function(d) { return 'translate(' + d.x + ','+ d.y + ')'; })	
+    		.attr("class", "myelement")
+    		.attr("email", function(d) { return d.email.replace('@', '').replace('_', '').replace('.', ''); })
+    		.attr("transform", function(d) { 
+
+    			return 'translate(' + d.x + ','+ d.y + ')'; 
+    			//socket.emit('moving', d.x, d.y);
+    			
+    		})
+    		.attr("myx", function(d) { return d.x; })
+    		.attr("myy", function(d) { return d.y; })
     .append("circle")
-      .attr("r", 5)	
+      .attr("r", 5);
       //.call(drag);
+
+	dotContainer
+		.selectAll(".myelement")
+		.data(dots)
+		.append("text")
+		.attr("y", -12)
+		.attr("dy", ".35em")
+		.text(function(d) { return d.name; });
 });   
 
+socket.on('message', function(data) {
+        console.log(data);
+    });
 
-setTimeout(function() {
-	svg.select("[name]")
-	.call(drag);
-}, 2000);
+socket.on('moving', function(cx, cy){
+	    d3.select('g.myelement').attr("transform", 'translate(' + cx + ','+ cy + ')');
+	    console.log(cx + ' ' + ' ' + cy);
+	});
 
+// setTimeout(function() {
+// 	svg.select("[name]")
+// 	.call(drag);
+// }, 2000);
+
+
+
+
+
+
+
+// var newcircle = dotContainer.append("g")
+// 	.attr("class", "newcircle")
+// 	.attr("cx", "200")
+//     .attr("cy", "200");
+
+// newcircle.append("circle")
+//     .attr("cx", "200")
+//     .attr("cy", "200")
+//     .attr("r", 15);
+
+// newcircle.append("text")
+// 	.attr("x", "200")
+// 	.attr("y", 200 - 20)
+// 	.attr("dy", ".35em")
+// 	.text("Роман");
 
 
 
@@ -1164,7 +1213,7 @@ function dragged(d) {
 }
 */
 
-var socket = io();
+
 
 function dragged(d) {
 
@@ -1176,15 +1225,12 @@ function dragged(d) {
   });
 
   //d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
-  socket.emit('moving', d.x, d.y);
+  
 
 }
 
 
-socket.on('moving', function(cx, cy){
-	    d3.select('g.myelement').attr("transform", 'translate(' + cx + ','+ cy + ')');
-	    console.log(cx + ' ' + ' ' + cy);
-	});
+
 
 
 function dragended(d) {

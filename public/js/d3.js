@@ -27,6 +27,8 @@ var rect = svg.append("rect")
 
 var container = svg.append("g");
 
+
+
 container.append("g")
     .attr("class", "x axis")
   .selectAll("line")

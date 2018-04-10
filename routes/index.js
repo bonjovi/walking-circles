@@ -6,7 +6,7 @@ var app = express();
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
 	
-	res.render('system', {layout: false, username: req.user.username});
+	res.render('system', {layout: false, username: req.user.name, email: req.user.email.replace('@', '').replace('_', '').replace('.', '')});
 });
 
 function ensureAuthenticated(req, res, next){

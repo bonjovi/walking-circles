@@ -8,7 +8,36 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var fs = require("fs");
+
 var mongo = require('mongodb');
+var MongoClient = mongo.MongoClient;
+var url = "mongodb://localhost/nodeauth";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("nodeauth");
+  dbo.collection("users").find({}).toArray(function(err, result) {
+    if (err) throw err;
+    fs.unlinkSync('public/hello.tsv');
+    fs.appendFileSync('public/hello.tsv', 'x' + '\t' + 'y' + '\t' + 'name' + '\t' + 'email' + '\n');
+    for (key in result) {
+        console.log(result[key].name);
+        fs.appendFileSync('public/hello.tsv', result[key].x + '\t' + result[key].y + '\t' + result[key].name + '\t' + result[key].email + '\n');
+        // fs.writeFile("hello.tsv", "Hello мир!", function(error){
+        //     if(error) throw error; 
+        //     console.log("Асинхронная запись файла завершена. Содержимое файла:");
+        //     var data = fs.readFileSync("hello.txt", "utf8");
+        //     console.log(data);  
+        // });
+    }
+    db.close();
+  });
+});
+
+
+
+
+
 var mongoose = require('mongoose');
 var nodemailer = require('nodemailer');
 
@@ -21,19 +50,98 @@ var users = require('./routes/users');
 // Init App
 var app = express();
 
+
+var querystring = require('querystring');
+var urlH = require('url');
+
+
 // Socket
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var httpH = require('http');
 
-io.on('connection', function(socket){
-    socket.on('moving', function(cx, cy){
-        console.log(cx, cy);
-        io.emit('moving', cx, cy);
+//При клике на body вызывается аяксом эта функция
+httpH.createServer(function (req, res) {
+    var pquery = querystring.parse(urlH.parse(req.url).query);
+    var callback = (pquery.callback ? pquery.callback : '');
+
+    var returnObject = {message: pquery};
+    var returnObjectString = JSON.stringify(returnObject);
+
+    console.log('request received');
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(callback + '(\'' + returnObjectString + '\')');
+
+    MongoClient.connect(url, function(err, db) {
+        var dbo = db.db("nodeauth");
+        dbo.collection("users").findOneAndUpdate(
+                {name: pquery.username}, // критерий выборки
+                { $set: {x: pquery.x, y: pquery.y}}, // параметр обновления
+                function(err, result){
+                     
+                    console.log(result);
+                    db.close();
+                }
+        );
     });
-});
+
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("nodeauth");
+      dbo.collection("users").find({}).toArray(function(err, result) {
+        if (err) throw err;
+        fs.unlinkSync('public/hello.tsv');
+        fs.appendFileSync('public/hello.tsv', 'x' + '\t' + 'y' + '\t' + 'name' + '\t' + 'email' + '\n');
+        for (key in result) {
+            console.log(result[key].name);
+            fs.appendFileSync('public/hello.tsv', result[key].x + '\t' + result[key].y + '\t' + result[key].name + '\t' + result[key].email + '\n');
+            // fs.writeFile("hello.tsv", "Hello мир!", function(error){
+            //     if(error) throw error; 
+            //     console.log("Асинхронная запись файла завершена. Содержимое файла:");
+            //     var data = fs.readFileSync("hello.txt", "utf8");
+            //     console.log(data);  
+            // });
+        }
+        db.close();
+      });
+    });
+
+}).listen(8124);
+
+
+
+
+
+//var io = require('socket.io')(http);
+
+// io.on('connection', function(socket){
+//     socket.on('moving', function(cx, cy){
+//         console.log(cx, cy);
+//         io.emit('moving', cx, cy);
+//     });
+// });
+
+// io.on('connection', function (socket) {
+//   socket.emit('news', { hello: 'world' });
+//   socket.on('my other event', function (data) {
+//     console.log(data);
+//   });
+// });
+
+// var io = require('socket.io')(6001);
+
+// io.on('connection', function(socket) {
+//     console.log('New connection', socket.id);
+//     //socket.send("Message from server");
+
+//     socket.on('message', function(data) {
+//         socket.send(data);
+//     });
+//     //socket.emit('news', { hello: 'world' });
+// })
 
 http.listen(4000, function(){
   console.log('listening on *:4000');
+  console.log('Satana');
 });
 
 // View Engine
