@@ -1,0 +1,62 @@
+.popup-content {
+	padding-left: 20px;
+	font: normal 32px/28px RistrettoPro-Regular;
+}
+
+[contenteditable=true] {
+	font-style: italic;
+	font-weight: bold;
+}
+
+.header__iser-info input {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+    color: #999;
+    border:0;
+    width: 100%;
+    text-align: center;
+}
+
+.profileblock__title {
+	list-style: none;
+	font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 14px;
+    color: #000;
+    border: 0;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.profileblock__maintitle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.profileblock__info {
+	list-style: none;
+}
+
+.profileblock__info input {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+    color: #949494;
+    border:0;
+    width: calc(100% - 40px);
+    text-align: left;
+    margin-left: 40px;
+}
+
+.profileblock__maintitle > span {
+	padding-left: 40px;
+	background: url(/img/closed-lock.png) 0 0 no-repeat;
+	line-height: 16px;
+}
+
+.profileblock__info {
+	margin-top: 20px;
+	display: none;
+}

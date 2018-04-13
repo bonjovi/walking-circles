@@ -3,10 +3,17 @@ var exphbs = require('express-handlebars');
 var router = express.Router();
 var app = express();
 
+
+
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
-	
-	res.render('system', {layout: false, username: req.user.name, email: req.user.email.replace('@', '').replace('_', '').replace('.', '')});
+	var userinfo;
+	req.user.userinfo ? userinfo = req : userinfo = req
+
+	var userabout;
+	req.user.userinfo ? userabout = req : userabout = req
+
+	res.render('system', {layout: false, userinfo: req.user.userinfo, userabout: req.user.userabout, username: req.user.name, email: req.user.email.replace('@', '').replace('_', '').replace('.', '')});
 });
 
 function ensureAuthenticated(req, res, next){

@@ -1061,7 +1061,7 @@ var svg = d3.select("body").append("svg")
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
-    .call(zoom);
+    .call(zoom).on("dblclick.zoom", null);
 
 var rect = svg.append("rect")
     .attr("width", width)
@@ -1099,8 +1099,10 @@ dotContainer = container.append("g")
                .datum({x:-20, y:-20})
                .attr("transform", function(d) { return 'translate(' + d.x + ' '+ d.y + ')'; })
                //.call(drag);
-var socket = io.connect(':3000');
-socket.send("Говно");
+
+
+	
+
 d3.tsv("hello.tsv", dottype, function(error, dots) {
   dotContainer
     .attr("class", "dot")
@@ -1130,14 +1132,16 @@ d3.tsv("hello.tsv", dottype, function(error, dots) {
 		.text(function(d) { return d.name; });
 });   
 
-socket.on('message', function(data) {
-        console.log(data);
-    });
+	
 
-socket.on('moving', function(cx, cy){
-	    d3.select('g.myelement').attr("transform", 'translate(' + cx + ','+ cy + ')');
-	    console.log(cx + ' ' + ' ' + cy);
-	});
+// socket.on('message', function(data) {
+//         console.log(data);
+//     });
+
+// socket.on('moving', function(cx, cy){
+// 	    d3.select('g.myelement').attr("transform", 'translate(' + cx + ','+ cy + ')');
+// 	    console.log(cx + ' ' + ' ' + cy);
+// 	});
 
 // setTimeout(function() {
 // 	svg.select("[name]")

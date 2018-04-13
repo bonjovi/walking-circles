@@ -49,7 +49,9 @@ var users = require('./routes/users');
 
 // Init App
 var app = express();
+var server = app.listen(2000);
 
+var newApp = require('express')();
 
 var querystring = require('querystring');
 var urlH = require('url');
@@ -57,6 +59,7 @@ var urlH = require('url');
 
 // Socket
 var http = require('http').Server(app);
+var httpSocket = require('http').Server(newApp);
 var httpH = require('http');
 
 //При клике на body вызывается аяксом эта функция
@@ -71,18 +74,50 @@ httpH.createServer(function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end(callback + '(\'' + returnObjectString + '\')');
 
-    MongoClient.connect(url, function(err, db) {
-        var dbo = db.db("nodeauth");
-        dbo.collection("users").findOneAndUpdate(
-                {name: pquery.username}, // критерий выборки
-                { $set: {x: pquery.x, y: pquery.y}}, // параметр обновления
-                function(err, result){
-                     
-                    console.log(result);
-                    db.close();
-                }
-        );
-    });
+    if(pquery.x) {
+        MongoClient.connect(url, function(err, db) {
+            var dbo = db.db("nodeauth");
+            dbo.collection("users").findOneAndUpdate(
+                    {name: pquery.username}, // критерий выборки
+                    { $set: {x: pquery.x, y: pquery.y}}, // параметр обновления
+                    function(err, result){
+                         
+                        console.log(result);
+                        db.close();
+                    }
+            );
+        });
+    }
+
+    if(pquery.userinfo) {
+        MongoClient.connect(url, function(err, db) {
+            var dbo = db.db("nodeauth");
+            dbo.collection("users").findOneAndUpdate(
+                    {name: pquery.username}, // критерий выборки
+                    { $set: {userinfo: pquery.userinfo}}, // параметр обновления
+                    function(err, result){
+                         
+                        console.log(result);
+                        db.close();
+                    }
+            );
+        });
+    }
+
+    if(pquery.userabout) {
+        MongoClient.connect(url, function(err, db) {
+            var dbo = db.db("nodeauth");
+            dbo.collection("users").findOneAndUpdate(
+                    {name: pquery.username}, // критерий выборки
+                    { $set: {userabout: pquery.userabout}}, // параметр обновления
+                    function(err, result){
+                         
+                        console.log(result);
+                        db.close();
+                    }
+            );
+        });
+    }
 
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
@@ -139,10 +174,10 @@ httpH.createServer(function (req, res) {
 //     //socket.emit('news', { hello: 'world' });
 // })
 
-http.listen(4000, function(){
-  console.log('listening on *:4000');
-  console.log('Satana');
-});
+// http.listen(4000, function(){
+//   console.log('listening on *:4000');
+//   console.log('Satana');
+// });
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -197,6 +232,20 @@ app.use(function (req, res, next) {
   res.locals.user = req.user || null;
   next();
 });
+
+
+
+var io = require('socket.io').listen(2001);
+
+io.on('connection', function(socket){
+    socket.on('chat message', function(movingEmail, movingX, movingY){
+        console.log('message: ' + movingEmail + ' ' + movingX + ' ' + movingY);
+        io.emit('chat message', movingEmail, movingX, movingY);
+    });
+
+});
+
+
 
 
 

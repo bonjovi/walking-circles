@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="/kuzin/css/reset.css" type="text/css" media="all">
+	<link rel="stylesheet" href="/kuzin/css/simplebar.css" type="text/css" media="all">
+	<link rel="stylesheet" href="/kuzin/css/style05.css" type="text/css" media="all">
+	<script
+  src="http://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans&amp;subset=cyrillic" rel="stylesheet">
+	<link rel="stylesheet" href="/kuzin/css/media-queries05.css" type="text/css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.dev.js"></script>
+	<script type="text/javascript" src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<script>
+	
+	  // var socket = io.connect(':6001');
+	  // socket.on('message', function (data) {
+	  //   console.log(data);
+	  // }).on('news', function (data) {
+	  //   console.log(data);
+	  // });
+	  // socket.on('news', function (data) {
+	  //   console.log(data);
+	  //   socket.emit('my other event', { my: 'data' });
+	  // });
+	</script>
+
+	
+
+	<script>
+		// $(function() {
+		// 	var grabUsername = $('.user-name h2').text();
+		// 	var random = Math.floor(Math.random()*10);
+		// 	var groupElement = $('circle').parent('g').eq(random);
+		// 	var namedElement = groupElement.attr('name', grabUsername);
+		// 	var namedElementCoords = namedElement.attr('transform');
+		// 	//$('text').html(grabUsername);
+		// 	var coordsArray = namedElementCoords.slice(10, namedElementCoords.length-1).split(' ');;
+		// 	console.log(coordsArray);
+		// 	$('<text x="10" y="-5">' + grabUsername + '</text>').appendTo(groupElement);
+		// 	$('g[name=' + grabUsername + ']').attr('x', coordsArray[0]).attr('y', coordsArray[1]).children('circle').css('fill','red');
+
+
+
+
+
+		// });
+	</script>
+
+
+	<script type="text/javascript" src="/kuzin/js/simplebar.js"></script>
+	<script type="text/javascript" src="/kuzin/js/script05.js"></script>
+	<script type="text/javascript" src="/js/new.js"></script>
+	
+	<style>
+
+		g[name=sys] {
+			z-index:100;
+			display: block;
+		}
+		
+		.dot circle {
+		  fill: lightsteelblue;
+		  stroke: steelblue;
+		  stroke-width: 1.5px;
+		}
+
+		.dot circle.dragging {
+		  fill: red;
+		  stroke: brown;
+		}
+
+		.axis line {
+		  fill: none;
+		  stroke: #ddd;
+		  shape-rendering: crispEdges;
+		  vector-effect: non-scaling-stroke;
+		}
+
+		.dotContainer {
+		  display: block;
+		  z-index: 100;
+		}
+
+		svg {
+			position: absolute;
+			z-index: 1;
+		}
+
+		#debug-info, .map-object {
+			display: none;
+		}
+
+	</style>
+
+  
+	<!-- html5.js for IE less than 9 -->
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- css3-mediaqueries.js for IE less than 9 -->
+	<!--[if lt IE 9]>
+		<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+	<![endif]-->
+	<!--[if IE]><script type="text/javascript" src="js/classList.min.js"></script>![endif]-->
+
+	<title>Testing page</title>
+
+</head>
+<body>
+	<div class="central-button-wrapper" onclick="hide_right_panel()">
+		<div id="map-test"></div>
+	<!--	<div class="map-object-wrapper">
+			<div class="central-button" onclick="show_popup(event)"></div>
+		<h2 class="user-name">БРУНГИЛЬДА</h2><center><span class="user-info">Трогательная женщина</span></center>
+		</div> -->
+		<div id="debug-info"></div>
+		<div class="map-object"></div>
+	</div>
+	<div class="popup" >
+		<div class="popup-header">
+			<div class="rating-counter-block">
+			  <div class="rating-counter-icon"></div>
+			  <span class="rating-counter-value">632 641</span>
+			</div>
+			<a class="expand-to-panel-btn" href="javascript:void(0)" onclick="show_right_panel(event)"></a>
+		</div>
+		<div class="popup-content">
+			<div class="popup-avatar">
+			</div>
+			<h2 class="user-name">БРУНГИЛЬДА</h2>
+			<center>
+			<span class="user-info">Трогательная женщина</span><br/>
+			<span class="user-date">11.12.2017</span><br/>
+			<span class="user-status">Мастер</span>
+			</center>
+			
+		</div>
+		<div class="popup-buttons-block">
+			<ul class="popup-buttons">
+				<li>
+				<a class="popup-btn send-msg" href="javascript:void(0)" onclick=""></a>
+				</li>
+				<li>
+				<a class="popup-btn friend-request" href="javascript:void(0)" onclick=""></a>
+				</li>
+				<li>
+				<a class="popup-btn create-group" href="javascript:void(0)" onclick=""></a>
+				</li>
+				<li>
+				<a class="popup-btn complaint" href="javascript:void(0)" onclick=""></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	
+	
+	<div id="side-bar" class="side-bar">	
+			<ul class="side-bar-buttons">
+				<li><a class="search-btn" href="#" onclick="show_left_panel(1)" ></a></li>
+				<li><a class="profile-btn" href="#" onclick="show_left_panel(2)"></a></li>
+				<li><a class="comments-btn" href="#"></a></li>
+				<li><a class="events-btn" href="#" onclick="show_left_panel(3)"></a></li>
+				
+			</ul>
+	</div>
+	<div class="left-panel-container">
+		<div class="search left-panel">
+			<p>Блок с поиском</p>
+		</div>
+		
+		<div class="my-profile left-panel">
+			<div class="profile-header active">
+				<div class="panel-cntr-left-block">
+					<a class="func-buttons-pnl" href="#" onclick="show_spec_menu('left')" ></a>
+				</div>
+				<div class="panel-cntr-right-block">
+					<ul class="panel-buttons">
+						<li class="l_btn"><a class="close-pnl" href="#" onclick="show_left_panel(2)"></a></li>
+						<li class="m_btn"><a class="fullscreen-pnl" href="#" onclick="full_screen_expand('left',2)"></a></li>
+						<li class="r_btn"><a class="change-width-pnl mn" href="#" onclick = "left_panel_expand()"></a></li>									
+					</ul>
+				</div>	
+			</div>
+			<div class="spec-menu-block">
+				<div class="panel-cntr-left-block">
+					<a class="close-spec-menu" href="#" onclick="show_spec_menu('left')"></a>
+				</div>
+				<div class="panel-cntr-right-block">
+
+				</div>	
+			</div>
+			<ul class="profile-buttons active">
+				<li class="tab-link"><a class="personal-info" href="javascript:void(0)" onclick="show_tab(1,'left-panel')"></a></li>
+				<li class="tab-link"><a class="public" href="javascript:void(0)" onclick="show_tab(2,'left-panel')"></a></li>
+				<li class="tab-link"><a class="news-feed" href="javascript:void(0)" onclick="show_tab(3,'left-panel')"></a></li>
+				<li class="tab-link"><a class="event" href="javascript:void(0)"  onclick="show_tab(4,'left-panel')"></a></li>
+				<li class="tab-link"><a class="shop" href="javascript:void(0)"  onclick="show_tab(5,'left-panel')"></a></li>
+			</ul>
+			<ul class="profile-extra-buttons">
+				<li><a class="extra profile-search" href="javascript:void(0)" ></a></li>
+				<li><a class="extra add-bookmark" href="javascript:void(0)" ></a></li>
+				<li><a class="extra share" href="javascript:void(0)" ></a></li>
+				<li><a class="extra complaint" href="javascript:void(0)" ></a></li>
+			</ul>
+
+			<div class="outer-tab-content-container">
+				<div class="inner-tab-content-container">
+					<div id="personal-info" class="tab-content">
+					
+						<div class="user-name-block pnl-wrp">
+						<div class="user-name-block-header">
+							<div class="user-name">
+								<h2>{{username}}</h2>
+								<h3 style="display:none;">{{email}}</h3>
+								<span class="user-info">Художник или любая другая не очень важная информация ...</span>
+							</div>
+							<div class="profile-pnl-cntr">
+							    <a class="spec-menu-btn" href="javascript:void(0)" onclick="show_personal_info_spec_menu('left','user-name')"></a>
+							</div>
+						</div>	
+							
+						</div>
+						<div class="user-image-feed-wrapper">
+						  <div class="user-image-feed">
+							<div class="image-feed-img"><img src="http://l916127k.bget.ru/wt/img/profile_image.png"></div>
+							<div class="image-feed-img"><img src="http://l916127k.bget.ru/wt/img/gallery_full_img_2.png"></div>
+							<div class="image-feed-img"><img src="http://l916127k.bget.ru/wt/img/gallery_full_img_3.png"></div>
+						  </div>
+						</div>
+						
+						<input type="checkbox" name="block-switch" id="personal-info-btn" checked hidden>
+						<div class="personal-info-block expand-block">
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Страна: </span>Не указано
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Город: </span>Нижний-Новгород
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">WWW: </span><a href="#">www.website.com</a>
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">E-mail: </span>design@yandex.ru
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Телефон: </span>Не указано
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Дата рождения: </span>Не указано
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Образование: </span>Среднее
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Пол: </span>М
+							</div>
+						</div>
+						
+						<input type="checkbox" name="block-switch" id="profile-stat-btn" hidden>
+						<div class="profile-stat-header lbl-wrp active">
+							<label class="menu-label" for="profile-stat-btn">
+							<input type="checkbox" name="private-switch" id="profile-stat-chk" class="locked-chk" hidden><label class="locked-label" for="profile-stat-chk"></label>
+							<span>Статистика</span></label>
+							<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_personal_info_spec_menu('left','profile-stat')"></a>
+						</div>
+						<div class="personal-info-spec-menu lbl-wrp">
+							<div class="panel-cntr-right-block">
+								<a class="close-spec-menu" href="#" onclick="show_personal_info_spec_menu('left','profile-stat')"></a>
+							</div>
+						</div>
+						<div class="profile-stat-block expand-block">
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Реальность: </span><span class="approved">Подтвержено</span>
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Регистрация: </span>21.09.2017
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Рейтинг: </span>22 399
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Уровень: </span>Мастер
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Активность: </span>Вчера, 23:10
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Награды: </span>Золотой батон в номинации "Тёртый калач", "Ветка" канского фестиваля
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Комментарии: </span>340
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Нарушения: </span><span class="penalties">2</span>
+							</div>
+							<div class="profile_info_row">
+								<span class="clr-fld-lbl">Что то ещё... </span>Что то ещё...
+							</div>																							
+						</div>
+						
+						<input type="checkbox" name="block-switch" id="about-btn" hidden>
+						<div class="about-header lbl-wrp active">
+							<label class="menu-label" for="about-btn">
+								<input type="checkbox" name="private-switch" id="about-chk" class="locked-chk" hidden><label class="locked-label" for="about-chk"></label>
+								<span>О себе</span>
+							</label>
+							<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_personal_info_spec_menu('left','about')"></a>
+						</div>
+						<div class="personal-info-spec-menu lbl-wrp">
+							<div class="panel-cntr-right-block">
+								<a class="close-spec-menu" href="#" onclick="show_personal_info_spec_menu('left','about')"></a>
+							</div>
+						</div>
+						<div class="about-block expand-block">
+							<p>В этом предложении пять слов. А вот ещё пять слов. Предложения из пяти слов хорошие. Но несколько подряд становятся монотонными. Смотрите, что с ними происходит.
+							Его звук становится ровно однообразным. Это звучит, как заевшая пластинка. Ухо требует от вас разнообразия.<br/><br/> Теперь послушайте. Я изменяю длину предложения, и я создаю музыку.
+							Музыка. Письмо поёт. У него приятный ритм, мелодика, гармония. Я изпользую короткие фразы. И я использую фразы средней длины.</p>
+						</div>
+						
+						<input type="checkbox" name="block-switch" id="friends-btn" hidden>
+						<div class="friends-header lbl-wrp active">
+							<label class="menu-label" for="friends-btn">
+								<input type="checkbox" name="private-switch" id="friends-chk" class="locked-chk" hidden checked><label class="locked-label" for="friends-chk"></label>
+								<span>Друзья <span class="items-qty">(26)</span></span>
+							</label>
+							<a class="spec-menu-btn" href="javascript:void(0)"  onclick="show_personal_info_spec_menu('left','friends')"></a>
+						</div>
+						<div class="personal-info-spec-menu lbl-wrp">
+							<div class="panel-cntr-right-block">
+								<a class="close-spec-menu" href="#" onclick="show_personal_info_spec_menu('left','friends')"></a>
+							</div>
+						</div>
+						<div class="friends-block expand-block">
+							<p>
+							<a href="#">Антон,</a>&ensp;<a href="#">Маруся,</a>&ensp;<a href="#">Жека,</a>&ensp;<a href="#">Мальвина,</a>&ensp;<a href="#">Калач,</a>
+							<a href="#">Zoor,</a>&ensp;<a href="#">Жиробас-Барабас,</a>&ensp;<a href="#">Фродо,</a>&ensp;<a href="#">Agent Smith,</a>&ensp;<a href="#">Саурон-бессмертный,</a>
+							<a href="#">Луи де Фюнес,</a>&ensp;<a href="#">Дукалис,</a>&ensp;<a href="#">Маша_32,</a>&ensp;<a href="#">Андрон,</a>&ensp;<a href="#">Жорик,</a>&ensp;<a href="#">Сопатый,</a>
+							&ensp;<a href="#">Икар</a>
+							</p>
+						</div>
+						
+						<input type="checkbox" name="block-switch" id="groups-btn" hidden>
+						<div class="groups-header lbl-wrp active">
+							<label class="menu-label" for="groups-btn">
+								<input type="checkbox" name="private-switch" id="groups-chk" class="locked-chk" hidden checked><label class="locked-label" for="groups-chk"></label>
+								<span>Сообщества <span class="items-qty">(5)</span></span>
+							</label>
+							<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_personal_info_spec_menu('left','groups')"></a>
+						</div>
+						<div class="personal-info-spec-menu lbl-wrp">
+							<div class="panel-cntr-right-block">
+								<a class="close-spec-menu" href="#" onclick="show_personal_info_spec_menu('left','groups')"></a>
+							</div>
+						</div>
+						<div class="groups-block expand-block">
+							<p>
+							<a href="#">Кальвадос, моя радость!</a>&ensp;<a href="#">Галоперидол,</a>&ensp;<a href="#">Книжный рай,</a>&ensp;
+							<a href="#">Не грози Южному Бутово,</a>&ensp;<a href="#">Фаршируем правильно</a>
+							</p>
+						</div>
+						
+						<input type="checkbox" name="block-switch" id="created-events-btn" hidden>
+						<div class="created-events-header lbl-wrp active">
+							<label class="menu-label" for="created-events-btn">
+								<input type="checkbox" name="private-switch" id="created-events-chk" class="locked-chk" hidden><label class="locked-label" for="created-events-chk"></label>
+								<span>События <span class="items-qty">(3)</span></span>
+							</label>
+							<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_personal_info_spec_menu('left','created-events')"></a>
+						</div>
+						<div class="personal-info-spec-menu lbl-wrp">
+							<div class="panel-cntr-right-block">
+								<a class="close-spec-menu" href="#" onclick="show_personal_info_spec_menu('left','created-events')"></a>
+							</div>
+						</div>
+						<div class="created-events-block expand-block">
+							<div class="event-date-and-status">21.08.2017 <span>состоялось</span></div><div class="event-name"><a href="#">Битва покемонов</a></div>
+							<div class="event-date-and-status">21.08.2017 <span>состоялось</span></div><div class="event-name"><a href="#">Давайте посадим лес! Приносите с собой дерево.</a></div>
+							<div class="event-date-and-status">21.08.2017 <span>отменено</span></div><div class="event-name"><a href="#">Субботник в доме №46</a></div>
+						</div>
+						
+						<input type="checkbox" name="block-switch" id="history-btn" hidden>
+						<div class="history-header lbl-wrp active">
+							<label class="menu-label" for="history-btn">
+								<input type="checkbox" name="private-switch" id="history-chk" class="locked-chk" hidden><label class="locked-label" for="history-chk"></label>
+								<span>История</span>
+							</label>
+							<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_personal_info_spec_menu('left','history')"></a>
+						</div>
+						<div class="personal-info-spec-menu lbl-wrp">
+							<div class="panel-cntr-right-block">
+								<a class="close-spec-menu" href="#" onclick="show_personal_info_spec_menu('left','history')"></a>
+							</div>
+						</div>
+						<div class="history-block expand-block">
+							<div class="history-date-and-time">21.08.2017 18:03</div><div class="history-name"><a href="#">Ходил туда незнамо куда ...</a></div>
+							<div class="history-date-and-time">21.08.2017 17:59</div><div class="history-name"><a href="#">Смотрел там то, то-то...</a></div>
+							<div class="history-date-and-time">21.08.2017 17:59</div><div class="history-name"><a href="#">Был там, смотрел то ...</a></div>
+							<div class="history-date-and-time">21.08.2017 17:54</div><div class="history-name"><a href="#">Написал там то ...</a></div>
+							<div class="history-date-and-time">21.08.2017 17:12</div><div class="history-name"><a href="#">Поучавствовал в том то ...</a></div>
+							<div class="history-date-and-time">21.08.2017 15:26</div><div class="history-name"><a href="#">Откоментил то то...</a></div>
+							<div class="history-date-and-time">21.08.2017 15:26</div><div class="history-name">Недоступно / Скрыто / Удалено пользователем</div>
+							<div class="history-date-and-time">21.08.2017 13:54</div><div class="history-name"><a href="#">Присоединился к сообществу "Фаршируем правильно".</a></div>
+						</div>
+						
+						<input type="checkbox" name="block-switch" id="bookmarks-btn" hidden>
+						<div class="bookmarks-header lbl-wrp active">
+							<label class="menu-label" for="bookmarks-btn">
+								<input type="checkbox" name="private-switch" id="bookmarks-chk" class="locked-chk" hidden><label class="locked-label" for="bookmarks-chk"></label>
+								<span>Закладки</span>
+							</label>
+							<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_personal_info_spec_menu('left','bookmarks')"></a>
+						</div>
+						<div class="personal-info-spec-menu lbl-wrp">
+							<div class="panel-cntr-right-block">
+								<a class="close-spec-menu" href="#" onclick="show_personal_info_spec_menu('left','bookmarks')"></a>
+							</div>
+						</div>
+						<div class="bookmarks-block expand-block">
+							<div class="bookmark-date-and-time">21.08.2017 18:03</div><div class="bookmark-name"><a href="#">Заголовок закладки №1</a></div>
+							<div class="bookmark-date-and-time">21.08.2017 17:59</div><div class="bookmark-name"><a href="#">Заголовок закладки №2</a></div>
+						</div>
+						
+						<input type="checkbox" name="block-switch" id="balance-btn" hidden>
+						<div class="balance-header lbl-wrp active">
+							<label class="menu-label" for="balance-btn">
+								<input type="checkbox" name="private-switch" id="balance-chk" class="locked-chk" hidden><label class="private-label" for="balance-chk"></label>
+								<span>Баланс</span>
+							</label>
+							<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_personal_info_spec_menu('left','balance')"></a>
+						</div>
+						<div class="personal-info-spec-menu lbl-wrp">
+							<div class="panel-cntr-right-block">
+								<a class="close-spec-menu" href="#" onclick="show_personal_info_spec_menu('left','balance')"></a>
+							</div>
+						</div>
+						<div class="balance-block expand-block">
+							<p>
+							24 500 условных единиц
+							</p>
+						</div>
+						
+						<input type="checkbox" name="block-switch" id="settings-btn" hidden>
+						<div class="settings-header lbl-wrp active">
+							<label class="menu-label" for="settings-btn">
+								<input type="checkbox" name="private-switch" id="settings-chk" class="locked-chk" hidden><label class="private-label" for="settings-chk"></label>
+								<span>Настройки</span>
+							</label>
+							<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_personal_info_spec_menu('left','settings')"></a>
+						</div>
+						<div class="personal-info-spec-menu lbl-wrp">
+							<div class="panel-cntr-right-block">
+								<a class="close-spec-menu" href="#" onclick="show_personal_info_spec_menu('left','settings')"></a>
+							</div>
+						</div>
+						<div class="settings-block expand-block">
+								<div class="setting-items"><a href="#">Зафиксировать правую боковую панель</a></div>
+								<div class="setting-items"><a href="#">Начинать сессию на своей метке</a></div>
+								<div class="setting-items"><a href="#">Начинать сессию в центре проекта</a></div>
+								<div class="setting-items"><a href="#">Удалить профиль</a></div>
+						</div>
+						<div class="panel-footer"></div>	
+					</div>
+					
+					<div id="public" class="tab-content">
+						<div class="public-list-header pnl-wrp">
+							<div class="public-post-qty">36 записей</div>
+							<div class="public-posts-order-select">
+							   <select>
+								  <option>Сперва новые</option>
+								  <option>Сперва старые</option>
+							   </select>
+							</div>
+							
+						</div>
+						<div id="public_post_2360040" class="public-post-wrapper">
+							<div class="public_post-header pnl-wrp">
+								<div class="public-post-author"><a href="#">Bookkinist</a></div>
+								<div class="public-post-date-and-time">19.08.2017   12:30</div>							
+							</div>
+
+							<div class="public-post-content pnl-wrp">
+								<div class="public-post-text">Комментарий. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit.
+								Duis sed odio sit amet nibh vulputate cursus a sit amet mauris.	Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat </div>
+								<div class="post-stat"></div>				
+							</div>
+							<div class="public-post-buttons-block pnl-wrp">
+								<ul class="indicators-icons">
+									<li class="comments-counter"><a class="comments-icon" href="#"></a><span>2</span></li>
+								</ul>
+								<ul class="public-post-buttons">
+									<li class="comment-btn active"><a class="comment-btn-icon" href="#"></a></li>
+									<li class="share-btn"><a class="share-btn-icon" href="#"></a></li>
+									<li class="complaint-btn"><a class="complaint-btn-icon" href="#"></a></li>
+								</ul>
+							</div>
+						</div>
+						<div id="public_post_2360045" class="public-post-wrapper post-reply">
+							<div class="public_post-header pnl-wrp">
+								<div class="public-post-author"><a href="#">Vooodoopeple</a> &rarr; <a href="#">Bookkinist</a></div>
+								<div class="public-post-date-and-time">19.08.2017   12:36</div>							
+							</div>
+
+							<div class="public-post-content pnl-wrp">
+								<div class="public-post-text">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit</div>
+								<div class="post-stat"></div>				
+							</div>
+							<div class="public-post-buttons-block pnl-wrp">
+								<ul class="public-post-buttons">
+									<li class="comment-btn"><a class="comment-btn-icon" href="#"></a></li>
+									<li class="share-btn"><a class="share-btn-icon" href="#"></a></li>
+									<li class="complaint-btn"><a class="complaint-btn-icon" href="#"></a></li>
+								</ul>
+							</div>
+						</div>
+						<div id="public_post_2360049" class="public-post-wrapper post-reply">
+							<div class="public_post-header pnl-wrp">
+								<div class="public-post-author"><a href="#">DlinnyiNicSmoktunovskiy</a> &rarr; <a href="#">Vooodoopeple</a></div>
+								<div class="public-post-date-and-time">19.08.2017   12:38</div>							
+							</div>
+
+							<div class="public-post-content pnl-wrp">
+								<div class="public-post-text">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit.
+								Duis sed odio sit amet nibh vulputate cursus a sit amet mauris.</div>
+								<div class="post-stat"></div>				
+							</div>
+							<div class="public-post-buttons-block pnl-wrp">
+								<ul class="public-post-buttons">
+									<li class="comment-btn"><a class="comment-btn-icon" href="#"></a></li>
+									<li class="share-btn"><a class="share-btn-icon" href="#"></a></li>
+									<li class="complaint-btn"><a class="complaint-btn-icon" href="#"></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="panel-footer"></div>
+					</div>
+				
+					<div id="news-feed" class="tab-content">
+						<div class="new-post">
+							<button class="create-post-btn">Создать публикацию</button>
+						</div>
+						<div id="post_2350040" class="post-preview-wrapper">
+							<div class="post-header">
+								<div class="post-header-btns-block active">
+									<div class="post-date-and-time">19.08.2017   12:30</div>
+									<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_post_header_spec_menu('left', 2350040)"></a>
+								</div>
+								<div class="post-header-spec-menu">
+									<div class="panel-cntr-right-block">
+									<a class="close-spec-menu" href="#" onclick="show_post_header_spec_menu('left', 2350040)"></a>
+									</div>	
+								</div>								
+								<div class="post-header-title">
+									<h2 class="post-header-text"><a class="post-header-link" href="#" onclick="show_full_post(2350040,'left')">Довольно длинный заголовок публикации на две-три строчки</a></h2>
+									<div class="separate-pnl-cntr"><a class="separate-pnl-btn" href="#" onclick="show_separate_panel(2350040,'left')"></a></div>
+								</div>
+							</div>
+
+							<div class="post-content">
+								<div class="post-full-image"><img src="/kuzin/img/post-full-img_2.jpg"></div>
+								<div class="post-text">Короткое описание новости. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum,
+								nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a </div>
+								<div class="post-stat"></div>				
+							</div>
+							<div class="post-indicators pnl-wrp">
+								<ul class="indicators-icons">
+									<li class="views-counter"><a class="views-icon" href="#"></a><span>223</span></li>
+									<li class="comments-counter"><a class="comments-icon" href="#"></a><span>6</span></li>
+									<li class="rating-counters"><a class="rating-icon" href="#"></a><span>65</span></li>
+								</ul>
+							</div>
+						</div>
+						<div id="post_2350032" class="post-preview-wrapper">
+							<div class="post-header">
+								<div class="post-header-btns-block active">
+									<div class="post-date-and-time">19.08.2017   10:30</div>
+									<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_post_header_spec_menu('left', 2350032)"></a>
+								</div>
+								<div class="post-header-spec-menu">
+									<div class="panel-cntr-right-block">
+									<a class="close-spec-menu" href="#" onclick="show_post_header_spec_menu('left', 2350032)"></a>
+									</div>	
+								</div>				
+								<div class="post-header-title">
+									<h2 class="post-header-text"><a class="post-header-link" href="#" onclick="show_full_post(2350032,'left')">Довольно длинный заголовок</a></h2>
+									<div class="separate-pnl-cntr"><a class="separate-pnl-btn" href="#" onclick="show_separate_panel(2350032,'left')"></a></div>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-full-image"><img src="/kuzin/img/post-full-img_3.jpg"></div>
+								<div class="post-text">Короткое описание новости. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum,
+								nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a </div>
+								<div class="post-indicators pnl-wrp">
+								<ul class="indicators-icons">
+									<li class="views-counter"><a class="views-icon" href="#"></a><span>223</span></li>
+									<li class="comments-counter"><a class="comments-icon" href="#"></a><span>6</span></li>
+									<li class="rating-counters"><a class="rating-icon" href="#"></a><span>65</span></li>
+								</ul>
+							</div>				
+							</div>
+						</div>
+						<div class="ads-block-wrapper">
+							<span>Рекламный модуль</span>
+						</div>
+						<div id="post_2350030" class="post-preview-wrapper">
+							<div class="post-header">
+								<div class="post-header-btns-block active">
+									<div class="post-date-and-time">19.08.2017   09:12</div>
+									<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_post_header_spec_menu('left', 2350030)"></a>
+								</div>
+								<div class="post-header-spec-menu">
+									<div class="panel-cntr-right-block">
+									<a class="close-spec-menu" href="#" onclick="show_post_header_spec_menu('left', 2350030)"></a>
+									</div>	
+								</div>	
+								<div class="post-header-title">
+									<h2 class="post-header-text"><a class="post-header-link" href="#" onclick="show_full_post(2350030,'left')">Заголовок</a></h2>
+									<div class="separate-pnl-cntr"><a class="separate-pnl-btn" href="#" onclick="show_separate_panel(2350030,'left')"></a></div>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-text">Короткое описание новости. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum,
+								nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a </div>
+								<div class="post-indicators pnl-wrp">
+								<ul class="indicators-icons">
+									<li class="views-counter"><a class="views-icon" href="#"></a><span>5 023</span></li>
+									<li class="comments-counter"><a class="comments-icon" href="#"></a><span>155</span></li>
+									<li class="rating-counters"><a class="rating-icon" href="#"></a><span>690</span></li>
+								</ul>
+							</div>				
+							</div>
+						</div>
+						<div id="post_2350028" class="post-preview-wrapper">
+							<div class="post-header">
+								<div class="post-header-btns-block active">
+									<div class="post-date-and-time">19.08.2017   09:12</div>
+									<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_post_header_spec_menu('left', 2350028)"></a>
+								</div>
+								<div class="post-header-spec-menu">
+									<div class="panel-cntr-right-block">
+									<a class="close-spec-menu" href="#" onclick="show_post_header_spec_menu('left', 2350028)"></a>
+									</div>	
+								</div>	
+								<div class="post-header-title">
+									<h2 class="post-header-text"><a class="post-header-link" href="#" onclick="show_full_post(2350028,'left')">Заголовок события / мероприятия</a></h2>
+									<div class="separate-pnl-cntr"><a class="separate-pnl-btn" href="#" onclick="show_separate_panel(2350028,'left')"></a></div>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-text">Короткое описание новости. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum,
+								nec sagittis sem </div>
+								<div class="post-indicators pnl-wrp">
+								<ul class="indicators-icons">
+									<li class="views-counter"><a class="views-icon" href="#"></a><span>223</span></li>
+									<li class="comments-counter"><a class="comments-icon" href="#"></a><span>6</span></li>
+									<li class="rating-counters"><a class="rating-icon" href="#"></a><span>65</span></li>
+								</ul>
+							</div>				
+							</div>
+						</div>
+						<div id="post_2350023" class="post-preview-wrapper">
+							<div class="post-header">
+								<div class="post-header-btns-block active">
+									<div class="post-date-and-time">18.08.2017   20:10</div>
+									<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_post_header_spec_menu('left', 2350023)"></a>
+								</div>
+								<div class="post-header-spec-menu">
+									<div class="panel-cntr-right-block">
+									<a class="close-spec-menu" href="#" onclick="show_post_header_spec_menu('left', 2350023)"></a>
+									</div>	
+								</div>				
+								<div class="post-header-title">
+									<h2 class="post-header-text"><a class="post-header-link" href="#" onclick="show_full_post(2350023,'left')">Заголовок. Картинка без описания</a></h2>
+									<div class="separate-pnl-cntr"><a class="separate-pnl-btn" href="#" onclick="show_separate_panel(2350023,'left')"></a></div>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-full-image"><img src="/kuzin/img/post-full-img_4.png"></div>
+								<div class="post-indicators pnl-wrp">
+								<ul class="indicators-icons">
+									<li class="views-counter"><a class="views-icon" href="#"></a><span>223</span></li>
+									<li class="comments-counter"><a class="comments-icon" href="#"></a><span>6</span></li>
+									<li class="rating-counters"><a class="rating-icon" href="#"></a><span>65</span></li>
+								</ul>
+							</div>				
+							</div>
+						</div>
+
+						<div id="full_post_2350040" class="post-wrapper">
+							<div class="full-post-header pnl-wrp">
+								<div class="full-post-header-btns-block">
+									<a class="return-btn" href="#" onclick="show_full_post(2350040,'left')"></a>
+								</div>
+								<div class="full-post-header-title">
+									<div class="post-date-and-time">19.08.2017   12:30</div>
+									<h2 class="post-header-text">Довольно длинный заголовок публикации на две-три строчки</h2>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-full-image"><img src="/kuzin/img/post-full-img_2.jpg"></div>
+								<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. 
+									Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. 
+									Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. 
+									Etiam pharetra, erat sed fermentum feugiat, velit 
+								</div>
+								<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit.  
+								</div>
+								<div class="counter">
+    							    <div class="count_title">Оцените публикацию</div>
+                                    <button class="count_minus_btn">–</button>
+                                    <input class="counter_field" type='text' value='+ 65' readonly />
+                                    <button class="count_plus_btn">+</button>
+                                    <div class="count_min_range">2 000 000</div>
+                                    <div class="count_max_range">2 000 065</div>
+                                </div>
+								<div class="post-stat"></div>				
+							</div>
+						</div>
+						<div id="full_post_2350032" class="post-wrapper">
+							<div class="full-post-header pnl-wrp">
+								<div class="full-post-header-btns-block">
+									<a class="return-btn" href="#" onclick="show_full_post(2350032,'left')"></a>
+								</div>
+								<div class="full-post-header-title">
+									<div class="post-date-and-time">19.08.2017   12:30</div>
+									<h2 class="post-header-text">Довольно длинный заголовок</h2>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. 
+									Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. 
+									Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. 
+									Etiam pharetra, erat sed fermentum feugiat, velit 
+								</div>
+								<div class="post-full-image"><img src="/kuzin/img/post-full-img_3.jpg"></div>
+								<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit.  
+								</div>
+								<div class="counter">
+    							    <div class="count_title">Оцените публикацию</div>
+                                    <button class="count_minus_btn">–</button>
+                                    <input class="counter_field" type='text' value='+ 65' readonly />
+                                    <button class="count_plus_btn">+</button>
+                                    <div class="count_min_range">2 000 000</div>
+                                    <div class="count_max_range">2 000 065</div>
+                                </div>
+								<div class="post-stat"></div>				
+							</div>
+						</div>
+						<div id="full_post_2350030" class="post-wrapper">
+							<div class="full-post-header pnl-wrp">
+								<div class="full-post-header-btns-block">
+									<a class="return-btn" href="#" onclick="show_full_post(2350030,'left')"></a>
+								</div>
+								<div class="full-post-header-title">
+									<div class="post-date-and-time">19.08.2017   12:30</div>
+									<h2 class="post-header-text">Заголовок</h2>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. 
+									Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. 
+									Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. 
+									Etiam pharetra, erat sed fermentum feugiat, velit 
+									Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit.  
+								</div>
+								<div class="counter">
+    							    <div class="count_title">Оцените публикацию</div>
+                                    <button class="count_minus_btn">–</button>
+                                    <input class="counter_field" type='text' value='+ 65' readonly />
+                                    <button class="count_plus_btn">+</button>
+                                    <div class="count_min_range">2 000 000</div>
+                                    <div class="count_max_range">2 000 065</div>
+                                </div>
+								<div class="post-stat"></div>				
+							</div>
+						</div>
+						<div id="full_post_2350028" class="post-wrapper">
+							<div class="full-post-header pnl-wrp">
+								<div class="full-post-header-btns-block">
+									<a class="return-btn" href="#" onclick="show_full_post(2350028,'left')"></a>
+								</div>
+								<div class="full-post-header-title">
+									<div class="post-date-and-time">19.08.2017   12:30</div>
+									<h2 class="post-header-text">Заголовок события / мероприятия</h2>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. 
+									Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. 
+									Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. 
+									Etiam pharetra, erat sed fermentum feugiat, velit 
+									Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit.  
+								</div>
+								<div class="counter">
+    							    <div class="count_title">Оцените публикацию</div>
+                                    <button class="count_minus_btn">–</button>
+                                    <input class="counter_field" type='text' value='+ 65' readonly />
+                                    <button class="count_plus_btn">+</button>
+                                    <div class="count_min_range">2 000 000</div>
+                                    <div class="count_max_range">2 000 065</div>
+                                </div>
+								<div class="post-stat"></div>				
+							</div>
+						</div>
+						<div id="full_post_2350023" class="post-wrapper">
+							<div class="full-post-header pnl-wrp">
+								<div class="full-post-header-btns-block">
+									<a class="return-btn" href="#" onclick="show_full_post(2350023,'left')"></a>
+								</div>
+								<div class="full-post-header-title">
+									<div class="post-date-and-time">18.08.2017   20:01</div>
+									<h2 class="post-header-text">Заголовок. Картинка без описания</h2>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-full-image"><img src="/kuzin/img/post-full-img_4.png"></div>
+								<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit.  
+								</div>
+								<div class="counter">
+    							    <div class="count_title">Оцените публикацию</div>
+                                    <button class="count_minus_btn">–</button>
+                                    <input class="counter_field" type='text' value='+ 65' readonly />
+                                    <button class="count_plus_btn">+</button>
+                                    <div class="count_min_range">2 000 000</div>
+                                    <div class="count_max_range">2 000 065</div>
+                                </div>
+								<div class="post-stat"></div>				
+							</div>
+						</div>
+						<div class="panel-footer"></div>
+					</div>
+					<div id="event" class="tab-content">
+						<div class="new-event pnl-wrp">
+							<button class="create-event-btn">Создать событие</button>
+						</div>
+						<div id="event_2350085" class="event-preview-wrapper">
+							<div class="event-header pnl-wrp">
+								<div class="event-header-btns-block active">
+									<div class="event-info">
+										<div class="event-date-and-time">19.08.2017   12:30</div>
+										<div class="event-status recruiting">Набор участников открыт</div>
+									</div>
+									<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_event_header_spec_menu('left', 2350085)"></a>
+								</div>
+								<div class="event-header-spec-menu">
+									<div class="panel-cntr-right-block">
+									<a class="close-spec-menu" href="#" onclick="show_event_header_spec_menu('left', 2350085)"></a>
+									</div>	
+								</div>								
+								<div class="event-header-title">
+									<h2 class="event-header-text"><a class="event-header-link" href="#" onclick="show_full_event(2350085,'left')">Довольно длинный заголовок события на две-три строчки</a></h2>
+									<div class="separate-pnl-cntr"><a class="separate-pnl-btn" href="#" onclick="show_separate_panel(2350085,'left')"></a></div>
+								</div>
+							</div>
+
+							<div class="event-content">
+								<div class="event-full-image"><img src="/kuzin/img/event-full-img_1.jpg"></div>
+								<div class="event-text pnl-wrp">Короткая выжимка из описания события. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet.
+								Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit.</div>
+								<div class="event-stat"></div>				
+							</div>
+							<div class="event-indicators pnl-wrp">
+								<ul class="indicators-icons">
+									<li class="views-counter"><a class="views-icon" href="#"></a><span>223</span></li>
+									<li class="comments-counter"><a class="comments-icon" href="#"></a><span>6</span></li>
+									<li class="rating-counters"><a class="rating-icon" href="#"></a><span>65</span></li>
+								</ul>
+							</div>
+						</div>
+						<div id="event_2350084" class="event-preview-wrapper">
+							<div class="event-header pnl-wrp">
+								<div class="event-header-btns-block active">
+									<div class="event-info">
+										<div class="event-date-and-time">19.08.2017   12:30</div>
+										<div class="event-status recruited">Набор участников окончен</div>
+									</div>
+									<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_event_header_spec_menu('left', 2350084)"></a>
+								</div>
+								<div class="event-header-spec-menu">
+									<div class="panel-cntr-right-block">
+									<a class="close-spec-menu" href="#" onclick="show_event_header_spec_menu('left', 2350084)"></a>
+									</div>	
+								</div>								
+								<div class="event-header-title">
+									<h2 class="event-header-text"><a class="event-header-link" href="#" onclick="show_full_event(2350084,'left')">Заголовок события</a></h2>
+									<div class="separate-pnl-cntr"><a class="separate-pnl-btn" href="#" onclick="show_separate_panel(2350084,'left')"></a></div>
+								</div>
+							</div>
+
+							<div class="event-content">
+								<div class="event-full-image"><img src="/kuzin/img/event-full-img_2.jpg"></div>
+								<div class="event-text pnl-wrp">Короткая выжимка из описания события. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet.
+								Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit.</div>
+								<div class="event-stat"></div>				
+							</div>
+							<div class="event-indicators pnl-wrp">
+								<ul class="indicators-icons">
+									<li class="views-counter"><a class="views-icon" href="#"></a><span>223</span></li>
+									<li class="comments-counter"><a class="comments-icon" href="#"></a><span>6</span></li>
+									<li class="rating-counters"><a class="rating-icon" href="#"></a><span>65</span></li>
+								</ul>
+							</div>
+						</div>
+						<div id="event_2350083" class="event-preview-wrapper">
+							<div class="event-header pnl-wrp">
+								<div class="event-header-btns-block active">
+									<div class="event-info">
+										<div class="event-date-and-time">19.08.2017   12:30</div>
+										<div class="event-status finished">Мероприятие состоялось</div>
+									</div>
+									<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_event_header_spec_menu('left', 2350083)"></a>
+								</div>
+								<div class="event-header-spec-menu">
+									<div class="panel-cntr-right-block">
+									<a class="close-spec-menu" href="#" onclick="show_event_header_spec_menu('left', 2350083)"></a>
+									</div>	
+								</div>								
+								<div class="event-header-title">
+									<h2 class="event-header-text"><a class="event-header-link" href="#" onclick="show_full_event(2350083,'left')">Заголовок события на две строчки</a></h2>
+									<div class="separate-pnl-cntr"><a class="separate-pnl-btn" href="#" onclick="show_separate_panel(2350083,'left')"></a></div>
+								</div>
+							</div>
+
+							<div class="event-content">
+								<div class="event-full-image"><img src="/kuzin/img/event-full-img_3.jpg"></div>
+								<div class="event-text pnl-wrp">Короткая выжимка из описания события. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet.
+								Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit.</div>
+								<div class="event-stat"></div>				
+							</div>
+							<div class="event-indicators pnl-wrp">
+								<ul class="indicators-icons">
+									<li class="views-counter"><a class="views-icon" href="#"></a><span>223</span></li>
+									<li class="comments-counter"><a class="comments-icon" href="#"></a><span>6</span></li>
+									<li class="rating-counters"><a class="rating-icon" href="#"></a><span>65</span></li>
+								</ul>
+							</div>
+						</div>
+						<div id="event_2350082" class="event-preview-wrapper">
+							<div class="event-header pnl-wrp">
+								<div class="event-header-btns-block active">
+									<div class="event-info">
+										<div class="event-date-and-time">19.08.2017   12:30</div>
+										<div class="event-status canceled">Мероприятие не состоялось</div>
+									</div>
+									<a class="spec-menu-btn" href="javascript:void(0)" onclick="show_event_header_spec_menu('left', 2350082)"></a>
+								</div>
+								<div class="event-header-spec-menu">
+									<div class="panel-cntr-right-block">
+									<a class="close-spec-menu" href="#" onclick="show_event_header_spec_menu('left', 2350082)"></a>
+									</div>	
+								</div>								
+								<div class="event-header-title">
+									<h2 class="event-header-text"><a class="event-header-link" href="#" onclick="show_full_event(2350082,'left')">Заголовок события на две строчки</a></h2>
+									<div class="separate-pnl-cntr"><a class="separate-pnl-btn" href="#" onclick="show_separate_panel(2350082,'left')"></a></div>
+								</div>
+							</div>
+
+							<div class="event-content">
+								<div class="event-full-image"><img src="/kuzin/img/event-full-img_4.jpg"></div>
+								<div class="event-text pnl-wrp">Короткая выжимка из описания события. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet.
+								Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit.</div>
+								<div class="event-stat"></div>				
+							</div>
+							<div class="event-indicators pnl-wrp">
+								<ul class="indicators-icons">
+									<li class="views-counter"><a class="views-icon" href="#"></a><span>223</span></li>
+									<li class="comments-counter"><a class="comments-icon" href="#"></a><span>6</span></li>
+									<li class="rating-counters"><a class="rating-icon" href="#"></a><span>65</span></li>
+								</ul>
+							</div>
+						</div>
+						<div class="panel-footer"></div>
+					</div>
+					<div id="shop" class="tab-content">
+						<p>&nbsp;Tab #5  Shop</p>
+						<div id="panel-debug-info"></div>
+					</div>
+
+					
+					
+					
+				</div>
+			</div>
+		</div>
+		<div class="separate left-panel">
+			<div class="profile-header active">
+				<div class="panel-cntr-left-block">
+					<a class="func-buttons-pnl" href="#" onclick = "show_spec_menu('separate left')" ></a>
+				</div>
+				<div class="panel-cntr-right-block">
+					<ul class="panel-buttons">
+						<li class="l_btn"><a class="close-pnl" href="#" onclick="show_left_panel(3)"></a></li>
+						<li class="m_btn"><a class="fullscreen-pnl" href="#" onclick="full_screen_expand('left')"></a></li>
+						<li class="r_btn"><a class="change-width-pnl mn" href="#" onclick = "left_panel_expand('separate')"></a></li>									
+					</ul>
+				</div>	
+			</div>
+			<div class="spec-menu-block">
+				<div class="panel-cntr-left-block">
+					<a class="close-spec-menu" href="#" onclick = "show_spec_menu('separate left')"></a>
+				</div>
+				<div class="panel-cntr-right-block">
+
+				</div>	
+			</div>
+			<div class="outer-tab-content-container">
+				<div class="inner-tab-content-container">
+			
+					<div id="news-feed" class="tab-content active">
+						<div id="full_sep_post_2350040" class="post-wrapper">
+							<div class="post-header">
+								<div class="full-post-header-title">
+									<div class="post-date-and-time">19.08.2017   12:30</div>
+									<h2 class="post-header-text">Довольно длинный заголовок публикации на две-три строчки</h2>
+								</div>
+
+							</div>
+							<div class="post-content">
+								<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. 
+									Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. 
+									Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. 
+									Etiam pharetra, erat sed fermentum feugiat, velit  </div>
+									<div class="post-full-image"><img src="/kuzin/img/post-full-img_2.jpg"></div>
+									<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit.  
+									</div>
+									<div class="counter">
+        							    <div class="count_title">Оцените публикацию</div>
+                                        <button class="count_minus_btn">–</button>
+                                        <input class="counter_field" type='text' value='+ 65' readonly />
+                                        <button class="count_plus_btn">+</button>
+                                        <div class="count_min_range">2 000 000</div>
+                                        <div class="count_max_range">2 000 065</div>
+                                    </div>
+								<div class="post-stat"></div>				
+							</div>
+						</div>
+					    <div id="full_sep_post_2350032" class="post-wrapper">
+							<div class="post-header">
+								<div class="full-post-header-title">
+									<div class="post-date-and-time">19.08.2017   10:30</div>
+									<h2 class="post-header-text">Довольно длинный заголовок</h2>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. 
+									Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. 
+									Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. 
+									Etiam pharetra, erat sed fermentum feugiat, velit  </div>
+									<div class="post-full-image"><img src="/kuzin/img/post-full-img_3.jpg"></div>
+									<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit.  
+									</div>
+									<div class="counter">
+        							    <div class="count_title">Оцените публикацию</div>
+                                        <button class="count_minus_btn">–</button>
+                                        <input class="counter_field" type='text' value='+ 65' readonly />
+                                        <button class="count_plus_btn">+</button>
+                                        <div class="count_min_range">2 000 000</div>
+                                        <div class="count_max_range">2 000 065</div>
+                                    </div>
+								<div class="post-stat"></div>				
+							</div>
+						</div>
+						<div id="full_sep_post_2350030" class="post-wrapper">
+							<div class="post-header">
+								<div class="full-post-header-title">
+									<div class="post-date-and-time">19.08.2017   10:30</div>
+									<h2 class="post-header-text">Заголовок</h2>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. 
+									Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. 
+									Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. 
+									Etiam pharetra, erat sed fermentum feugiat, velit
+								</div>
+									<div class="counter">
+        							    <div class="count_title">Оцените публикацию</div>
+                                        <button class="count_minus_btn">–</button>
+                                        <input class="counter_field" type='text' value='+ 65' readonly />
+                                        <button class="count_plus_btn">+</button>
+                                        <div class="count_min_range">2 000 000</div>
+                                        <div class="count_max_range">2 000 065</div>
+                                    </div>
+								<div class="post-stat"></div>				
+							</div>
+						</div>
+						<div id="full_sep_post_2350028" class="post-wrapper">
+							<div class="post-header">
+								<div class="full-post-header-title">
+									<div class="post-date-and-time">19.08.2017   10:30</div>
+									<h2 class="post-header-text">Заголовок события / мероприятия</h2>
+								</div>
+							</div>
+							<div class="post-content">
+								<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. 
+									Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. 
+									Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+									Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. 
+									Etiam pharetra, erat sed fermentum feugiat, velit 
+									Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit.  
+									</div>
+									<div class="counter">
+        							    <div class="count_title">Оцените публикацию</div>
+                                        <button class="count_minus_btn">–</button>
+                                        <input class="counter_field" type='text' value='+ 65' readonly />
+                                        <button class="count_plus_btn">+</button>
+                                        <div class="count_min_range">2 000 000</div>
+                                        <div class="count_max_range">2 000 065</div>
+                                    </div>
+								<div class="post-stat"></div>				
+							</div>
+						</div>
+						<div id="full_sep_post_2350023" class="post-wrapper">
+							<div class="post-header">
+								<div class="full-post-header-title">
+									<div class="post-date-and-time">19.08.2017   10:30</div>
+									<h2 class="post-header-text">Заголовок. Картинка без описания</h2>
+								</div>
+							</div>
+							<div class="post-content">
+									<div class="post-full-image"><img src="/kuzin/img/post-full-img_4.png"></div>
+									<div class="post-text">Публикация полностью. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. 
+									Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. 
+									Sed non  mauris vitae erat consequat auctor eu in elit.  
+									</div>
+									<div class="counter">
+        							    <div class="count_title">Оцените публикацию</div>
+                                        <button class="count_minus_btn">–</button>
+                                        <input class="counter_field" type='text' value='+ 65' readonly />
+                                        <button class="count_plus_btn">+</button>
+                                        <div class="count_min_range">2 000 000</div>
+                                        <div class="count_max_range">2 000 065</div>
+                                    </div>
+								<div class="post-stat"></div>				
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+		</div>
+		<div class="my-events left-panel">
+		<p>Содержимое блока events</p>
+		
+		</div>
+	</div>
+	
+	<div class="user-profile right-panel">
+		<div class="profile-header active">
+			<div class="panel-cntr-block-left">
+				<ul class="panel-buttons">
+					<li class="left_btn"><a class="close-pnl" href="#" onclick="show_right_panel()"></a></li>
+					<li class="left_btn"><a class="change-width-pnl mn" href="#" onclick = "right_panel_expand()"></a></li>
+				</ul>
+			</div>	
+			<div class="profile-avatar">
+				<img class="img-avatar" src="/kuzin/img/img-user-avatar.png" width="100" height="100"></label>
+			</div>
+			<div class="user-name-block">
+				<h2 class="user-name">БРУНГИЛЬДА</h2>
+				<span class="user-info">Название клана / другое ...</span>
+			</div>
+			<div class="panel-cntr-block-right">
+				<ul class="panel-buttons">
+					<li class="right_btn"><a class="pin-pnl" href="#"></a></li>
+					<li class="right_btn"><a class="extra-buttons-pnl" href="#" onclick="init_extra_buttons('right-panel')"></a></li>
+				</ul>
+			</div>	
+		</div>
+		<ul class="profile-buttons active">
+			<li><a class="tab-link personal-info active" href="javascript:void(0)" onclick="show_tab(1,'right-panel')"></a></li>
+			<li><a class="tab-link public" href="javascript:void(0)" onclick="show_tab(2,'right-panel')"></a></li>
+			<li><a class="tab-link news-feed" href="javascript:void(0)" onclick="show_tab(3,'right-panel')"></a></li>
+			<li><a class="tab-link event" href="javascript:void(0)"  onclick="show_tab(4,'right-panel')"></a></li>
+			{{!-- <li><a class="tab-link shop" href="javascript:void(0)"  onclick="show_tab(5,'right-panel')"></a></li> --}}
+		</ul>
+		<ul class="profile-extra-buttons">
+			<li><a class="extra profile-search" href="javascript:void(0)" ></a></li>
+			<li><a class="extra add-bookmark" href="javascript:void(0)" ></a></li>
+			<li><a class="extra share" href="javascript:void(0)" ></a></li>
+			<li><a class="extra complaint" href="javascript:void(0)" ></a></li>
+		</ul>
+		<div class="outer-tab-content-container">
+			<div class="inner-tab-content-container">
+				<div class="tab-content">
+				<p>&nbsp;Tab #1 Personal-info</p>
+				</div>
+
+				<div class="tab-content">
+				<p>&nbsp;Tab #2  Public</p>
+				</div>
+				
+				<div class="tab-content">
+					<div class="post-full-image"><img src="/kuzin/img/full-image2.png"></div>
+					<div class="content-wrapper"><p>&nbsp;&nbsp;Таким образом сложившаяся структура организации позволяет выполнять важные задания по разработке существенных финансовых и административных условий. Значимость этих проблем настолько очевидна, что новая модель организационной деятельности позволяет оценить значение системы обучения кадров, соответствует насущным потребностям. <br/>&nbsp;&nbsp;Разнообразный и богатый опыт постоянный количественный рост и сфера нашей активности играет важную роль в формировании позиций, занимаемых участниками в отношении поставленных задач.
+					<br/>&nbsp;&nbsp;Идейные соображения высшего порядка, а также новая модель организационной деятельности позволяет оценить значение направлений прогрессивного развития. Не следует, однако забывать, что новая модель организационной деятельности в значительной степени обуславливает создание форм развития. Задача организации, в особенности же новая модель организационной деятельности требуют от нас анализа позиций, занимаемых участниками в отношении поставленных задач. Таким образом постоянное информационно-пропагандистское обеспечение нашей деятельности в значительной степени обуславливает создание новых предложений. Разнообразный и богатый опыт консультация с широким активом позволяет оценить значение новых предложений.
+					Идейные соображения высшего порядка, а также новая модель организационной деятельности позволяет выполнять важные задания по разработке модели развития. С другой стороны реализация намеченных плановых заданий позволяет оценить значение систем массового участия. Разнообразный и богатый опыт постоянный количественный рост и сфера нашей активности способствует подготовки и реализации позиций, занимаемых участниками в отношении поставленных задач. Значимость этих проблем настолько очевидна, что укрепление и развитие структуры представляет собой интересный эксперимент проверки позиций, занимаемых участниками в отношении поставленных задач. Задача организации, в особенности же начало повседневной работы по формированию позиции обеспечивает широкому кругу (специалистов) участие в формировании соответствующий условий активизации. Идейные соображения высшего порядка, а также укрепление и развитие структуры влечет за собой процесс внедрения и модернизации направлений прогрессивного развития.</p>
+					</div>
+				</div>
+				<div class="tab-content">
+				<p>&nbsp;Tab #4 Events</p>
+				</div>
+
+				<div class="tab-content">
+				<p>&nbsp;Tab #5  Shop</p>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+
+
+</body>

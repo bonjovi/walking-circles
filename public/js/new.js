@@ -3,16 +3,38 @@ $(function() {
 	var startX = 35;
 	var startY = -25;
 
-	var name = $('.user-name > h2').text();
-	var email = $('.user-name > h3').text();
+	var name = $('.realname').text();
+	var email = $('.header.profile__header > h3').text();
 
 	// setTimeout(function() {
 	// 	$('<circle r="20" cx="' + startX + '" cy="' + startY + '" />').appendTo('body');	
 	// }, 500);
+var socket = io('http://localhost:2001');
 
 
 
-	$('body').on('click', function(e) {
+
+socket.on("chat message", function(movingEmail, movingX, movingY) {
+	console.log(movingEmail + ' ' + movingX + ' ' + movingY);
+	if(movingEmail != email) {
+		$('g[email=' + movingEmail)
+		.attr(
+			{"transform":"translate(" + movingX + "," + movingY + ")"}
+		).css(
+			'transition','transform 10s ease-in-out'
+		);
+	}
+});
+
+
+
+	$('body').on('dblclick', function(e) {
+
+
+
+	
+	
+
 		console.log(e.pageX + '!!!' + e.pageY);
 		var elm = $('g[email=' + email +'] circle');
 		
@@ -21,6 +43,9 @@ $(function() {
 	    var circleLocationLeft = $('g[email=' + email +']').attr('myx');
 	    var circleLocationTop = $('g[email=' + email +']').attr('myy');
 	    //alert(circleLocationLeft + ' !!! ' + circleLocationTop);
+
+
+
 
 
 	    var xPos = e.pageX;
@@ -33,6 +58,12 @@ $(function() {
 			'transition','transform 10s ease-in-out'
 		);
 		
+		socket.emit("chat message", email, xPos - startX, yPos - startY);
+
+
+
+
+
 $.ajax({
         url: 'http://localhost:8124/?username=' + name + '&x=' + (xPos - startX) +'&y=' + (yPos - startY) + '&callback=?',
         dataType: "jsonp",
@@ -50,3 +81,6 @@ $.ajax({
 	    console.log(xPos, yPos);
 	});
 });
+
+
+

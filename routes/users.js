@@ -57,6 +57,33 @@ router.post('/register', function(req, res){
 
 		req.flash('success_msg', 'Вы зарегистрированы и можете войти в систему');
 
+
+
+var fs = require("fs");
+		var mongo = require('mongodb');
+var MongoClient = mongo.MongoClient;
+var url = "mongodb://localhost/nodeauth";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("nodeauth");
+  dbo.collection("users").find({}).toArray(function(err, result) {
+    if (err) throw err;
+    fs.unlinkSync('public/hello.tsv');
+    fs.appendFileSync('public/hello.tsv', 'x' + '\t' + 'y' + '\t' + 'name' + '\t' + 'email' + '\n');
+    for (key in result) {
+        console.log(result[key].name);
+        fs.appendFileSync('public/hello.tsv', result[key].x + '\t' + result[key].y + '\t' + result[key].name + '\t' + result[key].email + '\n');
+        // fs.writeFile("hello.tsv", "Hello мир!", function(error){
+        //     if(error) throw error; 
+        //     console.log("Асинхронная запись файла завершена. Содержимое файла:");
+        //     var data = fs.readFileSync("hello.txt", "utf8");
+        //     console.log(data);  
+        // });
+    }
+    db.close();
+  });
+});
+
 		// Sending email
 		nodemailer.createTestAccount((err, account) => {
 		    var transporter = nodemailer.createTransport({

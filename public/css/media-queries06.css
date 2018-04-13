@@ -1,0 +1,213 @@
+html {
+  -webkit-text-size-adjust: none;
+}
+
+@media only screen and (min-width: 1921px) {
+  .left-panel.active {
+    min-width: 320px;
+    max-width: 740px;
+  }
+  .login.left-panel.active {
+    width: 740px;
+  }
+  .login-form, .registration-form, .login-header, .login-block-label, .reg-block-label, .content-wrapper {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+@media only screen and (min-width:1201px) and (max-width: 1920px) {
+  .left-panel.active {
+    min-width: 320px;
+    max-width: 600px;
+  }
+  .login.left-panel.active {
+    width: 600px;
+  }
+  .login-form, .registration-form, .login-header, .login-block-label, .reg-block-label, .content-wrapper {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+@media only screen and (min-width:961px) and (max-width: 1200px) {
+  .left-panel.active {
+    min-width: 320px;
+    max-width: 480px;
+  }
+  .login.left-panel.active {
+    width: 480px;
+  }
+  .login-form, .registration-form, .login-header, .login-block-label, .reg-block-label, .content-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media only screen and (min-width:768px) {
+  .button_fix-panel {
+    display: block;
+  }
+}
+
+@media only screen and (min-width:768px) and (max-width: 960px) {
+  .left-panel.active {
+    min-width: 320px;
+    max-width: 420px;
+  }
+  .login.left-panel.active {
+    width: 420px;
+  }
+  .login-form, .registration-form, .login-header, .login-block-label, .reg-block-label, .content-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media only screen and (min-width:480px) and (max-width: 767px) {
+  .left-panel.active {
+    min-width: 320px;
+    max-width: 339px;
+  }
+  .login.left-panel.active {
+    width: 339px;
+  }
+  .login-form, .registration-form, .login-header, .login-block-label, .reg-block-label, .content-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .right-panel.active {
+    display: none;
+  }
+  /*	ul.profile-buttons{
+		padding: 1%;
+	}
+
+	ul.profile-buttons li{
+		padding: 10px 0;
+	}
+	*/
+  /*ul.profile-buttons {
+		text-align: center;
+        display: -webkit-box; /* Android 4.3-, Safari без оптимизации
+        -webkit-box-pack: justify; /* Android 4.3-, Safari без оптимизации */
+  /*display: -webkit-flex; /* оптимизация для Safari */
+  /*-webkit-justify-content: space-between; /* оптимизация для Safari */
+  /*display: flex;
+        justify-content: space-between;
+        text-align: justify; /* IE10-, Firefox 12-22 */
+  /* text-align-last: justify; /* IE10-, Firefox 12-22 */
+  /*	}
+*/
+  ul.profile-buttons li {
+    display: inline-block;
+    /*	width : 100px;
+			height: 100px;
+			margin: 0 0 20px;
+			background: #E76D13; */
+    vertical-align: top;
+    text-align: center;
+    display: -webkit-box;
+    /* !хак! для Android 4.3-, должен идти после inline-block */
+  }
+  .profile-buttons img {
+    padding: 10px 1.16666%;
+  }
+  .user-name-block {
+    font-size: 90%;
+  }
+  h2.user-name {
+    font-size: 1.8em;
+  }
+}
+
+@media only screen and (min-width:421px) and (max-width: 479px) {
+  .left-panel.active {
+    min-width: 320px;
+    max-width: 339px;
+  }
+  .login.left-panel.active {
+    width: 339px;
+  }
+  .login-form, .registration-form, .login-header, .login-block-label, .reg-block-label, .content-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media only screen and (min-width:382px) and (max-width: 420px) {
+  .left-panel.active {
+    min-width: 320px;
+    max-width: 320px;
+  }
+  .login.left-panel.active {
+    width: 320px;
+  }
+  .login-form, .registration-form, .login-header, .login-block-label, .reg-block-label, .content-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .l_btn {
+    padding-right: 0;
+  }
+  .r_btn {
+    display: none;
+  }
+}
+
+@media only screen and (min-width:321px) and (max-width: 381px) {
+  .left-panel.active {
+    min-width: 258px;
+    max-width: 320px;
+  }
+  .login.left-panel.active {
+    width: 258px;
+  }
+  .user-image-feed-wrapper {
+    width: 320px;
+  }
+}
+
+@media only screen and (max-width:320px) {
+  .left-panel.active {
+    min-width: 258px;
+    max-width: 258px;
+  }
+  .left-panel.active.full-screen {
+    min-width: 258px;
+    max-width: 320px;
+  }
+  .login.left-panel.active {
+    width: 258px;
+  }
+  .w258 ul.panel-buttons li a.change-width-pnl.mn {
+    background: url(../img/icon-cntr-fullscreen.png) center no-repeat;
+  }
+  .w258 ul.panel-buttons li a.change-width-pnl.mn:hover {
+    background: url(../img/icon-cntr-fullscreen_act.png) center no-repeat;
+  }
+  .right-panel.active {
+    display: none;
+  }
+  .profile-buttons {
+    padding-left: 2px;
+    margin: 0px auto;
+  }
+  .profile-buttons img {
+    padding: 5px 1.16666%;
+  }
+  .img-avatar {
+    display: none;
+  }
+  .user-name-block {
+    /*	padding: 26px 0 0 12px;
+		margin-left: 68px; */
+    font-size: 90%;
+  }
+  h2.user-name {
+    font-size: 1.8em;
+  }
+  .central-button {
+    display: none;
+  }
+}

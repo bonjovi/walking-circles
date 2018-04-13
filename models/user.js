@@ -14,7 +14,24 @@ var UserSchema = mongoose.Schema({
 	},
 	name: {
 		type: String
+	},
+	x: {
+		type: String,
+		default: Math.ceil(Math.random() * Math.random() *1000)
+	},
+	y: {
+		type: String,
+		default: Math.ceil(Math.random() * Math.random() *1000)
+	},
+	userinfo: {
+		type: String,
+		default: 'Обновите свой статус'
+	},
+	userabout: {
+		type: String,
+		default: 'Заполните информацию о себе'
 	}
+
 });
 
 var User = module.exports = mongoose.model('User', UserSchema);
